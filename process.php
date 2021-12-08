@@ -82,7 +82,7 @@ if(isset($_POST['tableServe']))
 {
 $trim= trim($order, '"');
 mysqli_query($con,"UPDATE menu SET total_orders= (total_orders + '$torder') WHERE product_name = '$trim';");
-$results = mysqli_query($con,"UPDATE order_list SET status= 'Served' WHERE order_id = '$orderid' AND orders = '$trim';");
+$results = mysqli_query($con,"UPDATE order_list SET status= 'Served' WHERE '1';");
 echo "<script>window.location.replace('http://localhost:8080/project/tables.php');</script>";
 }
 if(isset($_POST['tableDelete']))

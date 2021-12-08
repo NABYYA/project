@@ -130,7 +130,7 @@
                                     {
                                       echo "<tr>
                                               <td scope='row'>" . $row["table_num_order"] . 
-                                              "</td><td>" . $row["order"] . "</td><td>";
+                                              "</td><td>" . $row["orders"] . "</td><td>";
                                               if ($row["status"] == "Served")
                                               {
                                                 echo "<i class='fas fa-check-circle green'></i>";
@@ -204,17 +204,14 @@
                     <input type="number" class="form-control" placeholder="Head Count" aria-label="Head Count" aria-describedby="basic-addon1" name="head_count" id="head_count" required>
                   </div>
                 </div>
-
               </div>
             </div>
-          
           <div class="modal-footer">
             <button type="submit" class="btn btn-light" name="btn_add" class='btn_add'>Add</button>
             <span class="close btn btn-warning">CLOSE</span>
           </div>
           </form>
         </div>
-       
       </div> 
   </div>
   

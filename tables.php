@@ -53,10 +53,13 @@ include 'navbar.php';
                                 
                            
 
-                                  <th scope="col" class="text-end" width="5%">
+                                  <th scope="col" class="text-end">
                                 <form action="process.php" method="post">
-                                <button type="submit" class="btn-dark " name="tableDelete"> CLEAR </a>
+                               <button type="submit" name="tableServe"> Serve</button>
+                     
+                                <button type="submit" class="btn-dark " name="tableDelete">CLEAR</a></th>
                               </tr>
+                              
                           </thead>
                           <tbody>
                               <tr>    
@@ -80,8 +83,7 @@ include 'navbar.php';
                                           echo " <span class='ms-1'> " . $row["status"] . "</td>";
                                           }  
                                         ?>
-                                           <td> <button type="submit" name="tableServe"> Serve </button>
-                                        </td></span></i>
+                                           </span></i>
                                           </tr>
                                             <?php
                                       }    
