@@ -44,25 +44,21 @@
                         {
                             
                                 $num = $_POST['order_num'];
-                                if ($num[$key] < 0) 
-                                {
-                                    echo "<h3>Dont enter negative values</h3>";
-                                }
-                                else if ($num[$key] > 9) 
-                                {
-                                    echo "<h3>Maximum of 9 orders per chicken only</h3>";
-                                }
-                                else
-                                {   
-                                    $sql =mysqli_query($con, "SELECT * FROM `order_list`");
-                                    $row = mysqli_fetch_assoc($sql);
-                                    $id= $row['order_id'];
-                                    $forder = $order ." x" . $num[$key];
-                                    $id= $id+1;
-                                    mysqli_query($con,"INSERT INTO `order_list`(`order_id`, `order`, `order_total` ,`table_num_order`, `status`) VALUES ('$id','$order', '$num[$key]','1','Pending')");
-                                    echo "<p>".$order. " x". $num[$key]."</p>";  
-                                    mysqli_query($con,"UPDATE `menu` SET `total_orders`= `(total_orders + '$num[$key]')` WHERE `product_name` =`$order`;");                               
-                                }
+                                // if ($num[$key] < 0) 
+                                // {
+                                //     echo "<h3>Dont enter negative values</h3>";
+                                // }
+                                // else if ($num[$key] > 9) 
+                                // {
+                                //     echo "<h3>Maximum of 9 orders per chicken only</h3>";
+                                // }
+                                // else
+                                // {   
+                                    // $forder = $num[$key];
+                                    // echo "aaaaaaaaaaaaaaaaaaaa" .$forder";
+                                    // mysqli_query($con,"INSERT INTO `order_list`(`orders`, `order_total` ,`table_num_order`, `status`) VALUES ('". trim($order, " ") ."', '".$forder."','1','Pending')");
+                                    echo "<p>".$order. "x". $num[$key]."</p>";                              
+                                // }
                             }
                         }
                         else

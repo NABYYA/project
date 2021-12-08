@@ -46,6 +46,7 @@ include 'navbar.php';
                 
                               <tr class="bg-light">
                             
+                                  <th scope="col" width="5%">ID</th>
                                   <th scope="col" width="5%">Order</th>
                                   <th scope="col" class="text-end" width="5%">Quantity</th>
                                   <th scope="col" class="text-end" width="5%">Status</th>
@@ -53,13 +54,12 @@ include 'navbar.php';
                            
 
                                   <th scope="col" class="text-end" width="5%">
-                                <a class="btn-dark " href="process.php?tableDelete=<?php echo $row['order']?>"> CLEAR </a>
+                                <form action="process.php" method="post">
+                                <button type="submit" class="btn-dark " name="tableDelete"> CLEAR </a>
                               </tr>
                           </thead>
                           <tbody>
-                            <form action="" method="post">
-                              <tr>
-                             
+                              <tr>    
                                 <?php
                                 $sql = "SELECT * FROM order_list;";
                                 $result = $con-> query($sql);
@@ -68,9 +68,9 @@ include 'navbar.php';
                                   while ($row = $result-> fetch_assoc())
                                   {?>
                                     <tr>
-                                      
-                                            <td scope='row'> <?php echo $order = $row["order"] ."</td>"?> 
-                                          <td scope='row' > <?php echo $torder = $row['order_total'] ?></span></i></td>
+                                          <td scope='row'> <?php echo $orderid = $row['order_id']?> </td>
+                                            <td scope='row'> <?php echo $order = $row['orders']?>  </td>
+                                          <td scope='row'> <?php echo $torder = $row['order_total'] ?></span></i></td>
                                            <?php
                                            if ($row["status"] == "Served"){
                                             echo "<td scope='row'><i class='fas fa-check-circle green'></i></td>";
@@ -80,16 +80,13 @@ include 'navbar.php';
                                           echo " <span class='ms-1'> " . $row["status"] . "</td>";
                                           }  
                                         ?>
-                                           <td> <button type="submit" name="tableServe"><a href="process.php?tableServe=<?php echo $row['order']?>"> Serve </a></button>
+                                           <td> <button type="submit" name="tableServe"> Serve </button>
                                         </td></span></i>
                                           </tr>
                                             <?php
-                                      } 
-                                      
+                                      }    
                                   } 
-                             
-                                ?>   
-                                
+                                ?>                          
                               </tr>                               
                           </tbody>       
                       </table>
@@ -149,7 +146,7 @@ include 'navbar.php';
                                           }
                                           else{
                                             echo "<i class='fas fa-circle yellow'></i>";
-                                          } echo "<span class='ms-1'> " . $row["status"] . " <button name='btn btn-danger btnServe'type='submit'>Serve</button></span></td></tr>";
+                                          } echo "<span class='ms-1'> " . $row["status"] . " <button class='btn-danger btn' name='btnServe'type='submit'>Serve</button></span></td></tr>";
                                         } 
                                   } 
                                 }

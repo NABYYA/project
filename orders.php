@@ -52,7 +52,7 @@
                               </tr>
                           </thead>
                           <tbody>
-                            <form action="process.php" method="post">
+                           
                           <?php
                           
                             $sql = "SELECT * FROM customers;";
@@ -78,7 +78,6 @@
                           ?>
                           </tbody>
                       </table>
-                          </form>
                     </div>
                   </div>
                 

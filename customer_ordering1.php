@@ -75,7 +75,7 @@
                                                         <label class='col-xl-4 col-xxl-4 switch p-2'>
                                                             <div class='form-check'>
                                                                 <input type='checkbox' name='order[]' value=' ". $row['product_name'] ." ' class='form-check-input chckbox' id='order'>
-                                                                <input type='number' name='order_num[]' class='input-group-text ordinput' value=''>
+                                                                <input type='number' name='order_num[]' class='input-group-text ordinput'>
                                                             </div>
                                                         </label>
                                                     </div>
