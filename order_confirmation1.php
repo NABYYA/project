@@ -34,39 +34,44 @@
             <h3>Order Total:</h3>
             <div class="ord">
                 <?php
-                    if (isset($_POST['submit'])) 
-                    {
+                    $newarr = [];
+                if (isset($_POST['submit']) ) 
+                {
+                        foreach($_POST['order_num'] as $item)
+                        {
+                            if($item) 
+                            {
+                            $newarr[] = $item;
+                            }
+                        }                                   
                         include 'connect.php';
                         if(!empty($_POST["order"]))
                         {
-                        
-                        foreach($_POST["order"] as $key => $order)
-                        {
-                            
-                                $num = $_POST['order_num'];
-                                // if ($num[$key] < 0) 
-                                // {
-                                //     echo "<h3>Dont enter negative values</h3>";
-                                // }
-                                // else if ($num[$key] > 9) 
-                                // {
-                                //     echo "<h3>Maximum of 9 orders per chicken only</h3>";
-                                // }
-                                // else
-                                // {   
-                                    // $forder = $num[$key];
-                                    // echo "aaaaaaaaaaaaaaaaaaaa" .$forder";
-                                    // mysqli_query($con,"INSERT INTO `order_list`(`orders`, `order_total` ,`table_num_order`, `status`) VALUES ('". trim($order, " ") ."', '".$forder."','1','Pending')");
-                                    echo "<p>".$order. "x". $num[$key]."</p>";                              
-                                // }
-                            }
+                                foreach($newarr as $key => $order_num)
+                                {   
+                                    $orderarr = $_POST['order'];
+                                    $order = $orderarr[$key];   
+                                    if ($order_num < 0) 
+                                    {
+                                        echo "<h3>Dont enter negative values</h3>";
+                                    }
+                                    else if ($order_num > 9) 
+                                    {
+                                        echo "<h3>Maximum of 9 orders per chicken only</h3>";
+                                    }
+                                    else
+                                    {   
+                                        mysqli_query($con,"INSERT INTO `order_list`(`orders`, `order_total` ,`table_num_order`, `status`) VALUES
+                                        ('". trim($order, " ") ."', '".$order_num."','1','Pending')");
+                                        echo "<p>".$order_num. "x". $order. "</p>";               
+                                    }
+                                }
                         }
                         else
                         {
                             echo 'Please select at least one chicken';
                         }
-                    }
-
+                }
                 ?>
             </div>
             <div class="col-12">

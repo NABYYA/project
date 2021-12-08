@@ -59,8 +59,10 @@
                                 $result = $con-> query($sql);
                                 if ($result-> num_rows > 0)
                                 {
+                                    $ctr = 0;
                                     while ($row = $result-> fetch_assoc())
                                     {
+                                        
                                     echo"<div class='col-xl-4 col-xxl-4'>
                                             <div class='card shadow m-2'>
                                                 <div class='p-4'>
@@ -75,7 +77,7 @@
                                                         <label class='col-xl-4 col-xxl-4 switch p-2'>
                                                             <div class='form-check'>
                                                                 <input type='checkbox' name='order[]' value=' ". $row['product_name'] ." ' class='form-check-input chckbox' id='order'>
-                                                                <input type='number' name='order_num[]' class='input-group-text ordinput'>
+                                                                <input type='number' name='order_num[".$ctr++."]' class='input-group-text ordinput'>
                                                             </div>
                                                         </label>
                                                     </div>
