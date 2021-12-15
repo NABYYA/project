@@ -13,11 +13,10 @@
 
  <?php 
 include 'connect.php';
-include 'tables.php';
 if(isset($_GET['delete']))
 {
    mysqli_query($con,"DELETE FROM `customers` WHERE table_num = $tbNum");
-    header('Location: orders.php');
+    header('Refresh:5;Location: orders.php');
 }
 if(isset($_GET['serve']))
 {
@@ -25,7 +24,7 @@ if(isset($_GET['serve']))
     $sql = mysqli_query($con,"SELECT table_num_order FROM `order_list` WHERE $tbServe");
     $row = mysqli_fetch_assoc($sql);
     if ($row["table_num_order"] == $tbServe) {
-
+     
         echo "
         <script>
         Swal.fire(-
@@ -34,10 +33,12 @@ if(isset($_GET['serve']))
           'error'
         )
       </script>;";
-      header('Location: orders.php?errorBusyTable');
+      header('Location: orders.php');
+     
     }
     else
     {
+      
     mysqli_query($con,"UPDATE `customers` SET `status`='Served' WHERE table_num=$tbServe");
     $sql = mysqli_query($con,"SELECT * FROM `customers` WHERE $tbServe");
 	$row = mysqli_fetch_assoc($sql);
@@ -57,6 +58,7 @@ if(isset($_GET['serve']))
      )
     </script>";
     header('Location: orders.php');
+    exit();
     }
 
     }
@@ -80,15 +82,18 @@ if(isset($_GET['tdelete']))
 }
 if(isset($_POST['tableServe']))
 {
+
+$order = $_POST["order"];
+$orderTot = $_POST["orderTot"];
 $trim= trim($order, '"');
-mysqli_query($con,"UPDATE menu SET total_orders= (total_orders + '$torder') WHERE product_name = '$trim';");
+mysqli_query($con,"UPDATE menu SET total_orders= (total_orders + '$orderTot') WHERE product_name = '$trim';");
 $results = mysqli_query($con,"UPDATE order_list SET status= 'Served' WHERE '1';");
-echo "<script>window.location.replace('http://localhost:8080/project/tables.php');</script>";
+header('Location: tables.php');
 }
 if(isset($_POST['tableDelete']))
 {
   mysqli_query($con,"DELETE FROM `order_list` WHERE 1");
-  echo "<script>window.location.replace('http://localhost:8080/project/tables.php');</script>";
+  header('Location: tables.php');
 }
 ?>
  </body>

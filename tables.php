@@ -54,7 +54,7 @@ include 'navbar.php';
                            
 
                                   <th scope="col" class="text-end">
-                                <form action="process.php" method="post">
+                        <form action="process.php" method="post">
                                <button type="submit" name="tableServe"> Serve</button>
                      
                                 <button type="submit" class="btn-dark " name="tableDelete">CLEAR</a></th>
@@ -71,9 +71,9 @@ include 'navbar.php';
                                   while ($row = $result-> fetch_assoc())
                                   {?>
                                     <tr>
-                                          <td scope='row'> <?php echo $orderid = $row['order_id']?> </td>
-                                            <td scope='row'> <?php echo $order = $row['orders']?>  </td>
-                                          <td scope='row'> <?php echo $torder = $row['order_total'] ?></span></i></td>
+                                          <td scope='row'><input type="hidden" name="orderid" value="<?php echo $row['order_id'];?>"><?php echo  $row['order_id']?> </td>
+                                           <td scope='row'><input type="hidden" name="order" value="<?php  echo $row['orders'];?>"> <?php echo  $row['orders']?>  </td>
+                                          <td scope='row'><input type="hidden" name="orderTot" value="<?php  echo $row['order_total'];?>"> <?php echo $torder = $row['order_total'] ?></span></i></td>
                                            <?php
                                            if ($row["status"] == "Served"){
                                             echo "<td scope='row'><i class='fas fa-check-circle green'></i></td>";
@@ -92,7 +92,7 @@ include 'navbar.php';
                               </tr>                               
                           </tbody>       
                       </table>
-                               </form>
+                     </form>
                     </div>
                     <!-- end of table div -->
                 </div>

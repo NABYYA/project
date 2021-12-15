@@ -214,10 +214,7 @@
         </div>
       </div> 
   </div>
-  
   </div>
-  
-
   <script src="jquery-3.6.0.min.js"></script>
   <script src="sweetalert2.all.min.js"></script>
   <script type="text/javascript" src="javaScript.js"></script>
@@ -230,9 +227,7 @@
 
 </body> 
 </html>
-<?php 
-
-                
+<?php          
   if(isset($_POST['btn_add']))
   {
     include 'connect.php';
@@ -240,11 +235,9 @@
       $table_num =  $_POST['table_num'];
       $head_count =  $_POST['head_count'];
       $tableRes = "SELECT * FROM `order_list` WHERE `table_num_order` = $table_num";
-      $tbNumRes = $con-> query($tableRes);
-          
+      $tbNumRes = $con-> query($tableRes);       
       $sql = "SELECT * FROM customers WHERE table_num = '$table_num';";
-      $result = $con-> query($sql);
-      
+      $result = $con-> query($sql);  
         if (empty($name) || empty($table_num) || empty($head_count)) 
         {
           echo "
@@ -293,9 +286,6 @@
         })
         </script>;";
         }
-       
-      
-
         else if(mysqli_num_rows($result)>0)
         {
           echo "
@@ -308,8 +298,7 @@
         })
         </script>;";
         exit();
-        }
-        
+        }       
         else
         {
           $dt2=date("Y-m-d H:i:s");
@@ -325,10 +314,10 @@
             'success'
           )
         </script>;";
+         header('Location: orders.php');
           exit();
           }
         }
-
 ?>
 
                       
