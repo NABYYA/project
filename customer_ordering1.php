@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +31,6 @@
     </style>
 </head>
 <body>
-    <!-- div for selection of order -->
     <div class="container-fluid mt-2">
         <div class="row">
             <!-- for order menu -->
@@ -62,7 +62,6 @@
                                     $ctr = 0;
                                     while ($row = $result-> fetch_assoc())
                                     {
-                                        
                                     echo"<div class='col-xl-4 col-xxl-4'>
                                             <div class='card shadow m-2'>
                                                 <div class='p-4'>
@@ -93,10 +92,10 @@
                 </div>   
             </div>
         </div>
+   
     </div>
     <div class="d-flex justify-content-center foot">
         <p>All Rights Reserve @Lucky Wings Ph</p>
     </div>
-    
 </body>
 </html>

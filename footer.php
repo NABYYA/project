@@ -5,15 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="sweetalert2.all.min.js"> </script>
+    <script src="sweetalert.min.js"></script>
 </head>
 <body>
-<script src="sweetalert2.all.min.js"> </script>
-<script src="sweetalert.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("button").click(function(){
+      $("#comments").load("tables.php", {
 
+      });
+    });
+  });
+</script>
 <script>
     $('.delete').on('click',function (e){
         e.preventDefault();
         var self = $(this);
+        alert(self.attr('href'));
         console.log(self.data('title'));
         Swal.fire({
         title: 'Are you sure?',
@@ -25,6 +35,17 @@
         confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
         if (result.isConfirmed) {
+          $.ajax({
+        url: "ajax_delete.php",
+        type: "post",
+        data: values ,
+        success: function (response) {
+           // You will get response from your PHP page (what you echo or print)
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+           console.log(textStatus, errorThrown);
+        }
+         });
             Swal.fire(
             'Deleted!',
             'Your file has been deleted.',
@@ -33,7 +54,6 @@
             location.href=self.attr('href');
         }
         })
-
     })
 </script>
 <script>
@@ -56,33 +76,23 @@ function myFunction() {
   }
 }
 </script>
-
-<script> 
-  $('.tserve').on('click',function (e){
-        e.preventDefault();
-        var self = $(this);
-        console.log(self.data('title'));
-        Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-            )
-            location.href=self.attr('href');
-        }
-        })
-    })
-
-
+<div id="link_wrapper">
+</div>
+<script>
+function loadXMLDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("link_wrapper").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "tables.php", true);
+  xhttp.send();
+}
+setInterval(function(){
+  loadXMLDoc();
+},1000)
 </script>
 </body>
 </html>

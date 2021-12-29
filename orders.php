@@ -5,6 +5,7 @@
 <html lang="en" dir="ltr">
   <head>
     <?php include 'head.php';?>
+    
   </head>
 <body>
 <body>
@@ -69,7 +70,7 @@
                                         <td class='text-end'><?php echo $row['head_count'] ?></span></i></td>
                                        <td class='text-end'><?php echo $row['status'] ?>
                                        <a href="process.php?serve=<?php echo $row["table_num"]?>"class="serve btn btn-success">                               
-                                      <a href="process.php?delete=<?php echo $row["table_num"]?>" class="delete btn btn-danger"></a>
+                                      <a href="<?php echo $row["table_num"]?>" class="delete btn btn-danger"></a>
                                     </td></span></i></td>
                                       </tr>
                                         <?php
@@ -129,25 +130,25 @@
                                     while ($row = $result-> fetch_assoc())
                                     {
                                       echo "<tr>
-                                              <td scope='row'>" . $row["table_num_order"] . 
-                                              "</td><td>" . $row["orders"] . "</td><td>";
-                                              if ($row["status"] == "Served")
-                                              {
-                                                echo "<i class='fas fa-check-circle green'></i>";
-                                                echo "<span class='ms-1'> " . $row["status"] . "</span>";
-                                              }
-                                              else if ($row["status"] == "Pending")
-                                              {
-                                                echo "<i class='fas fa-circle yellow'></i>";
-                                               echo "<span class='ms-1'> " . $row["status"] . "</span></td></tr>";  
-                                              }                                           
+                                      <td scope='row'>" . $row["table_num_order"] . 
+                                      "</td><td>" . $row["orders"] . "</td><td>";
+                                      if ($row["status"] == "Served")
+                                      {
+                                        echo "<i class='fas fa-check-circle green'></i>";
+                                        echo "<span class='ms-1'> " . $row["status"] . "</span>";
+                                      }
+                                      else if ($row["status"] == "Pending")
+                                      {
+                                        echo "<i class='fas fa-circle yellow'></i>";
+                                        echo "<span class='ms-1'> " . $row["status"] . "</span></td></tr>";  
+                                      }                                           
                                     } 
                                   }
                                 ?>
                               </tr>                              
                           </tbody>
                       </table>
-                     <?php include 'footer.php'; ?>
+             
                     </div>
                   </div>
                 </div>
@@ -170,19 +171,14 @@
           <div class="modal-header">
             <h2>Add Customer </h2>
             <i class="fas fa-user-plus mt-2 ml-1 fa-xl"></i>
-         
-            
           </div>
-          <form method="post" action="">
+          <form method="post" action="process.php">
             <div class="modal-body">
-
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Name</span>
                 <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="Name" name="name" id="name">
               </div>
-
               <div class="row">
-
                 <div class="col-xl-4">
                   <div class="input-group mb-3">
                     <div class="dropdown">
@@ -224,100 +220,59 @@
   integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script>
+    $('.delete').on('click',function (e){
+        e.preventDefault();
+        var self = $(this);
+        var table_id = self.attr('href');
+        console.log(self.data('title'));
+        Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+        url: "ajax_delete.php",
+        type: "post",
+       
+        data: {'id': table_id},
+        success: function (response) {
+          var data = JSON.parse(response);
+          console.log(data);
+          if (data.alert == 1) 
+          {
+            self.parents('tr').remove();
+            Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+            )
+          }
+          else
+          {
+            Swal.fire(
+            'NOT!',
+            'Your has not been deleted.',
+            'danger'
+            )
+          }
+          
+        },
 
+        });
+           
+        }
+        })
+    })
+
+</script>
 </body> 
 </html>
-<?php          
-  if(isset($_POST['btn_add']))
-  {
-    include 'connect.php';
-      $name =  $_POST['name'];
-      $table_num =  $_POST['table_num'];
-      $head_count =  $_POST['head_count'];
-      $tableRes = "SELECT * FROM `order_list` WHERE `table_num_order` = $table_num";
-      $tbNumRes = $con-> query($tableRes);       
-      $sql = "SELECT * FROM customers WHERE table_num = '$table_num';";
-      $result = $con-> query($sql);  
-        if (empty($name) || empty($table_num) || empty($head_count)) 
-        {
-          echo "
-          <script>			
-          Swal.fire({
-          icon: 'error',
-          title: 'EMPTY FIELDS!',
-        })
-        location.reload()
-        </script>;";
-        exit();
-        }
-        else if($head_count <= 0)
-        {
-          echo "
-          <script>			
-          Swal.fire({
-          icon: 'error',
-          title: 'Invalid!',
-          text: 'No negative value!',
-          timer: 5000
-        })
-        </script>;";
-        }
-        else if($head_count >=6)
-        {
-          echo "
-          <script>			
-          Swal.fire({
-          icon: 'error',
-          title: 'Invalid!',
-          text: 'MAXIMUM OF 6 PERSON(s) per table!',
-          timer: 5000
-        })
-        </script>;";
-        }
-        else if($table_num <= 0)
-        {
-          echo "
-          <script>			
-          Swal.fire({
-          icon: 'error',
-          title: 'BUSY!',
-          text: 'Dont enter negative value',
-          'timer: 5000'
-        })
-        </script>;";
-        }
-        else if(mysqli_num_rows($result)>0)
-        {
-          echo "
-          <script>			
-          Swal.fire({
-          icon: 'error',
-          title: 'ALREADY!',
-          text: 'Table no: " . $table_num ." is busy at the moment!',
-          timer: 5000
-        })
-        </script>;";
-        exit();
-        }       
-        else
-        {
-          $dt2=date("Y-m-d H:i:s");
-          mysqli_query($con, "INSERT INTO customers (`name`, `table_num`, `head_count` ) VALUES ('$name','$table_num','$head_count')");
-          $price = $head_count*200;
-          mysqli_query($con, "INSERT INTO `sale-history` (`customer_name`, `customer_count`, `total_price` ,`date`) 
-          VALUES ('$name','$head_count','$price','$dt2')");
-          echo "
-          <script>
-          Swal.fire(
-            'SUCCESS!',
-            'Succesfully added to waitlist at TABLE: ".$table_num."',
-            'success'
-          )
-        </script>;";
-         header('Location: orders.php');
-          exit();
-          }
-        }
-?>
+
 
                       

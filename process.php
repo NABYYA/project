@@ -8,9 +8,6 @@
      <title>Document</title>
  </head>
  <body>
-
-
-
  <?php 
 include 'connect.php';
 if(isset($_GET['delete']))
@@ -24,28 +21,25 @@ if(isset($_GET['serve']))
     $sql = mysqli_query($con,"SELECT table_num_order FROM `order_list` WHERE $tbServe");
     $row = mysqli_fetch_assoc($sql);
     if ($row["table_num_order"] == $tbServe) {
-     
         echo "
         <script>
-        Swal.fire(-
+        Swal.fire(
           'ERROR!',
           'ERROR',
           'error'
         )
       </script>;";
       header('Location: orders.php');
-     
     }
     else
     {
-      
     mysqli_query($con,"UPDATE `customers` SET `status`='Served' WHERE table_num=$tbServe");
     $sql = mysqli_query($con,"SELECT * FROM `customers` WHERE $tbServe");
-	$row = mysqli_fetch_assoc($sql);
+	  $row = mysqli_fetch_assoc($sql);
     $id = $row["id"];
     $tbTable = $row["table_num"] ;
     $order = "No Order Yet" ;
-    $tbStat = $row["status"] ;
+    $tbStat = $row["status"];
     $tbServe =$_GET['serve'];
     mysqli_query($con, "INSERT INTO `order_list` (`order_id`,`order`, `table_num_order`, `status`) 
     VALUES ('$id','$order', '$tbTable' ,'$tbStat')");
@@ -60,8 +54,7 @@ if(isset($_GET['serve']))
     header('Location: orders.php');
     exit();
     }
-
-    }
+}
 if(isset($_POST['delete_btn_set']))
 {
         $tbNum =$_GET['delete'];
@@ -82,7 +75,6 @@ if(isset($_GET['tdelete']))
 }
 if(isset($_POST['tableServe']))
 {
-
 $order = $_POST["order"];
 $orderTot = $_POST["orderTot"];
 $trim= trim($order, '"');
@@ -95,5 +87,117 @@ if(isset($_POST['tableDelete']))
   mysqli_query($con,"DELETE FROM `order_list` WHERE 1");
   header('Location: tables.php');
 }
+if(isset($_POST['btn_add']))
+  {
+    include 'connect.php';
+      $name =  $_POST['name'];
+      $table_num =  $_POST['table_num'];
+      $head_count =  $_POST['head_count'];
+      $tableRes = "SELECT * FROM `order_list` WHERE `table_num_order` = $table_num";
+      $tbNumRes = $con-> query($tableRes);       
+      $sql = "SELECT * FROM customers WHERE table_num = '$table_num';";
+      $result = $con-> query($sql);  
+        if (empty($name) || empty($table_num) || empty($head_count)) 
+        {
+          echo "
+          <script>			
+          Swal.fire({
+          icon: 'error',
+          title: 'EMPTY FIELDS!',
+        })
+        location.reload()
+        </script>;";
+        exit();
+        }
+        else if($head_count <= 0)
+        {
+          echo "
+          <script>			
+          Swal.fire({
+          icon: 'error',
+          title: 'Invalid!',
+          text: 'No negative value!',
+          timer: 5000
+        })
+        </script>;";
+        }
+        else if($head_count >=6)
+        {
+          echo "
+          <script>			
+          Swal.fire({
+          icon: 'error',
+          title: 'Invalid!',
+          text: 'MAXIMUM OF 6 PERSON(s) per table!',
+          timer: 5000
+        })
+        </script>;";
+        }
+        else if($table_num <= 0)
+        {
+          echo "
+          <script>			
+          Swal.fire({
+          icon: 'error',
+          title: 'BUSY!',
+          text: 'Dont enter negative value',
+          'timer: 5000'
+        })
+        </script>;";
+        }
+        else if(mysqli_num_rows($result)>0)
+        {
+          echo "
+          <script>			
+          Swal.fire({
+          icon: 'error',
+          title: 'ALREADY!',
+          text: 'Table no: " . $table_num ." is busy at the moment!',
+          timer: 5000
+        })
+        </script>;";
+        exit();
+        }       
+        else
+        {
+          $dt2=date("Y-m-d H:i:s");
+          mysqli_query($con, "INSERT INTO customers (`name`, `table_num`, `head_count` ) VALUES ('$name','$table_num','$head_count')");
+          $price = $head_count*200;
+          mysqli_query($con, "INSERT INTO `sale-history` (`customer_name`, `customer_count`, `total_price` ,`date`) 
+          VALUES ('$name','$head_count','$price','$dt2')");
+          echo "
+          <script>
+          Swal.fire(
+            'SUCCESS!',
+            'Succesfully added to waitlist at TABLE: ".$table_num."',
+            'success'
+          )
+        </script>;";
+        header('Location: orders.php');
+          exit();
+          }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
+
+
+
+
+
+
  </body>

@@ -96,9 +96,6 @@
         </div>
       </div>
     </section>
-
-
-
       <section id="minimal-statistics">
         <div class="row">
           <div class="col-12 mt-3 mb-1">
@@ -176,7 +173,6 @@
             </div>
           </div>
         </div>
-      
         <div class="row">
           <div class="col-xl-3 col-sm-6 col-12">
             <div class="card">
@@ -212,7 +208,6 @@
               </div>
             </div>
           </div>
-      
           <div class="col-xl-3 col-sm-6 col-12">
             <div class="card">
               <div class="card-content">
@@ -247,8 +242,7 @@
               </div>
             </div>
           </div>
-        </div>
-      
+        </div>  
         <div class="row">
           <div class="col-xl-3 col-sm-6 col-12">
             <div class="card">
@@ -290,7 +284,6 @@
               </div>
             </div>
           </div>
-      
           <div class="col-xl-3 col-sm-6 col-12">
             <div class="card">
               <div class="card-content">
@@ -333,34 +326,7 @@
           </div>
         </div>
       </section>
-      
-      
-
-
-
-
-
-
-
-
-
     </div>
-      
-   
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
   </section>
   <script type="text/javascript" src="javaScript.js"></script>
 </body>

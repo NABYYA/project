@@ -2,13 +2,13 @@
 
 <html lang="en" dir="ltr">
   <head>
-    <?php include 'head.php';?>
+    <?php include 'head.php';
+    include 'navbar.php';
+    ?>
+ 
   </head>
 <body>
 
-<?php 
-include 'navbar.php';
- ?>
 
   <section class="home-section">
     <div class="text">Tables</div>
@@ -50,14 +50,28 @@ include 'navbar.php';
                                   <th scope="col" width="5%">Order</th>
                                   <th scope="col" class="text-end" width="5%">Quantity</th>
                                   <th scope="col" class="text-end" width="5%">Status</th>
-                                
-                           
-
                                   <th scope="col" class="text-end">
-                        <form action="process.php" method="post">
+                              <button  class="btn-dark " id="tbDelete" name="tableDelete">CLEAR</button>
+                              <form id="myform" action="process.php" method="post">
+                              <button type="submit" name="tableDelete" id="test"  style="display:none" >test</button> 
+                              <?php
+                                $sql = "SELECT * FROM order_list;";
+                                $result = $con-> query($sql);
+                                if ($result-> num_rows > 0)
+                                {
+                                  while ($row = $result-> fetch_assoc())
+                                  {?>
+                      
+                                          <input type="hidden" name="orderid" value="<?php echo $row['order_id'];?>">
+                                           <input type="hidden" name="order" value="<?php  echo $row['orders'];?>">
+                                         <input type="hidden" name="orderTot" value="<?php  echo $row['order_total'];?>">
+                                            <?php
+                                      }    
+                                  } 
+                                ?>          
+                               </form>
+                              <form action="process.php" method="post" >
                                <button type="submit" name="tableServe"> Serve</button>
-                     
-                                <button type="submit" class="btn-dark " name="tableDelete">CLEAR</a></th>
                               </tr>
                               
                           </thead>
@@ -363,9 +377,7 @@ include 'navbar.php';
                                     'Succesfully cleared the table!',
                                     'success'
                                   )
-                                 </script>";
-                               
-
+                                 </script>";                               
                                 }
                                   ?>
                       </table>
@@ -377,7 +389,6 @@ include 'navbar.php';
           </div>
         </div>
         <!-- end of table 4 div -->
-
         <!-- start of table 5 div -->
         <div class="col-xl-6">
           
@@ -429,17 +440,14 @@ include 'navbar.php';
                                   } 
                                 }
                                 ?>
-                               
-                              </tr>
-                               
+                              </tr>   
                           </tbody>
                           <button name="btnDelete" type="submit" class="btn btn-delete btn-dark">Clear</button>
                           </form>
                                 <?php
                                  include 'connect.php';
                                 if (isset($_POST['btnServe'])) 
-                                {
-                                 
+                                { 
                                   $sql = mysqli_query($con,"SELECT`table_num_order` FROM `order_list` WHERE 5;");
                                   $row = mysqli_fetch_assoc($sql);
                                   $num = $row['table_num_order'];
@@ -456,8 +464,6 @@ include 'navbar.php';
                                     'success'
                                   )
                                  </script>";
-                               
-
                                 }
                                   ?>
                       </table>
@@ -473,4 +479,24 @@ include 'navbar.php';
   </section>
   <script type="text/javascript" src="javaScript.js"></script>
 </body>
+<script>
+    $('#tbDelete').on('click',function (e)
+    {
+        e.preventDefault();
+        Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+        })
+        .then((result) => 
+        {
+          $('#test').click();
+          alert('Delete successfully');
+        })
+    })
+</script>
 </html>
