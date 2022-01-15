@@ -155,7 +155,6 @@
               </div>
             </div>
           </div>
-        
           <div class="col-xl-3 col-sm-6 col-12">
             <div class="card">
               <div class="card-content">
@@ -195,27 +194,23 @@
     </div>
   </section>
   <script type="text/javascript" src="javaScript.js"></script>
-
-
-
   <?php 
-$query = "SELECT total_price, MONTHNAME(CURDATE()), DAYOFMONTH(date) FROM `sale-history` WHERE MONTH(date) = MONTH(CURRENT_DATE());";
+$query = "SELECT sum(total_price) as 'total_price', MONTHNAME(date) as 'month', DAY(date) as 'day' FROM `sale-history` WHERE MONTH(date) = MONTH(CURRENT_DATE()) GROUP BY DATE(date);;";
 $result = mysqli_query($con, $query);
 $chart_data = '';
 while($row = mysqli_fetch_array($result))
 {
- $chart_data .= "{Date:'".$row[1]." ".$row[2]."', dailySales:".$row[0]."}, ";
+ $chart_data .= "{Date:'".$row["month"]." ".$row["day"]."', dailySales:".$row["total_price"]."}, ";
 }
 $chart_data = substr($chart_data, 0, -2);
 ?>
   <br /><br />
   <div class="container" style="width:900px;">
    <h2 class="text-center">THIS MONTH SALES! </h2>
-   <h3 class="text-center">THIS IS CHART PER TRANSACTION IN THIS MONTH!</h3>   
+   <h3 class="text-center">THIS IS CHART PER DAY IN THIS MONTH!</h3>   
    <br /><br />
    <div id="chart"></div>
   </div>
-
 <script>
 Morris.Bar({
  element : 'chart',
