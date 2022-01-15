@@ -131,7 +131,7 @@
                      echo 0;
               }
               ?></h3>
-                      <span>THIS MONTH TOTAL SALES!</span>
+                      <span>THIS IS MONTHLY TOTAL SALES!</span>
                     </div>
                   </div>
                 </div>
@@ -145,10 +145,15 @@
                   <div class="media d-flex">
                     <div class="align-self-center">
                       <i class="icon-speech warning font-large-2 float-left"></i>
+<?php
+$query = "SELECT sum(total_price) as 'total_price', DAY(date) as 'day', MONTHNAME(date) as 'month' FROM `sale-history` WHERE DAY(date) = DAY(CURRENT_DATE());";
+$result = mysqli_query($con, $query);
+$row = mysqli_fetch_assoc($result)
+?>
                     </div>
                     <div class="media-body text-right">
-                      <h3>156</h3>
-                      <span>New Comments</span>
+                      <h3><?php echo $row["total_price"];?></h3>
+                      <span>DAILY TOTAL SALES! <br> Today : <?php echo $row["month"] ." ". $row["day"] ?></span>
                     </div>
                   </div>
                 </div>
