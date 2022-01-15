@@ -3,6 +3,12 @@
 <html lang="en" dir="ltr">
   <head>
     <?php include 'head.php';?>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
    </head>
 <body>
   
@@ -39,9 +45,7 @@
         {
           $output = "₱" . " ".$row['sum'];
         }
-      
       ?>
-
       <div class="row">
         <div class="col-xl-6 col-md-12">
           <div class="card">
@@ -53,7 +57,7 @@
                   </div>
                   <div class="media-body">
                     <h4>Total Sales</h4>
-                    <span>Monthly Sales Amount</span>
+                    <span> Sales Amount</span>
                   </div>
                   <div class="align-self-center">
                     <i class="icon-heart danger font-large-2"></i>
@@ -112,9 +116,22 @@
                     <div class="align-self-center">
                       <i class="icon-pencil primary font-large-2 float-left"></i>
                     </div>
-                    <div class="media-body text-right">
-                      <h3>Buffallo</h3>
-                      <span>Most Purchased Flavor</span>
+                  <?php
+           $query = "SELECT MONTHNAME(date), SUM(total_price) FROM `sale-history` WHERE MONTH(date) = MONTH(CURRENT_DATE());";
+           $result = mysqli_query($con, $query, MYSQLI_USE_RESULT);
+      
+           ?>
+             <div class="media-body text-right">
+               <h3><?php 
+               if ($result) {
+                 while ($row = mysqli_fetch_row($result)) {
+                  echo $row[0] . '<br> ₱' .$row[1];
+                 }
+              } else {
+                     echo 0;
+              }
+              ?></h3>
+                      <span>THIS MONTH TOTAL SALES!</span>
                     </div>
                   </div>
                 </div>
@@ -138,179 +155,28 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="align-self-center">
-                      <i class="icon-graph success font-large-2 float-left"></i>
-                    </div>
-                    <div class="media-body text-right">
-                      <h3>64.89 %</h3>
-                      <span>Bounce Rate</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="align-self-center">
-                      <i class="icon-pointer danger font-large-2 float-left"></i>
-                    </div>
-                    <div class="media-body text-right">
-                      <h3>423</h3>
-                      <span>Total Visits</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
+        
           <div class="col-xl-3 col-sm-6 col-12">
             <div class="card">
               <div class="card-content">
                 <div class="card-body">
                   <div class="media d-flex">
                     <div class="media-body text-left">
-                      <h3 class="danger">278</h3>
-                      <span>New Projects</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-rocket danger font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="success">156</h3>
-                      <span>New Clients</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-user success font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="warning">64.89 %</h3>
-                      <span>Conversion Rate</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-pie-chart warning font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="primary">423</h3>
-                      <span>Support Tickets</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-support primary font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>  
-        <div class="row">
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="primary">278</h3>
-                      <span>New Posts</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-book-open primary font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                  <div class="progress mt-1 mb-0" style="height: 7px;">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="warning">156</h3>
-                      <span>New Comments</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-bubbles warning font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                  <div class="progress mt-1 mb-0" style="height: 7px;">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="success">64.89 %</h3>
-                      <span>Bounce Rate</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-cup success font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                  <div class="progress mt-1 mb-0" style="height: 7px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="danger">423</h3>
+                    <?php 
+                      $sql = "SELECT SUM(customer_count) as sum FROM `sale-history`;";
+                      $query_result = mysqli_query($con, $sql);
+                      while($row = mysqli_fetch_assoc($query_result))
+                      {
+                        $output = $row['sum'];
+                      }
+                      $sql = "SELECT SUM(customer_count) as sum FROM `sale-history`;";
+                      $query_result = mysqli_query($con, $sql);
+                      while($row = mysqli_fetch_assoc($query_result))
+                      {
+                        $output = $row['sum'];
+                      }
+                    ?>
+                                    <h3 class="danger"><?php echo $output; ?></h3>
                       <span>Total Visits</span>
                     </div>
                     <div class="align-self-center">
@@ -329,5 +195,37 @@
     </div>
   </section>
   <script type="text/javascript" src="javaScript.js"></script>
+
+
+
+  <?php 
+$query = "SELECT total_price, MONTHNAME(CURDATE()), DAYOFMONTH(date) FROM `sale-history` WHERE MONTH(date) = MONTH(CURRENT_DATE());";
+$result = mysqli_query($con, $query);
+$chart_data = '';
+while($row = mysqli_fetch_array($result))
+{
+ $chart_data .= "{Date:'".$row[1]." ".$row[2]."', dailySales:".$row[0]."}, ";
+}
+$chart_data = substr($chart_data, 0, -2);
+?>
+  <br /><br />
+  <div class="container" style="width:900px;">
+   <h2 class="text-center">THIS MONTH SALES! </h2>
+   <h3 class="text-center">THIS IS CHART PER TRANSACTION IN THIS MONTH!</h3>   
+   <br /><br />
+   <div id="chart"></div>
+  </div>
+
+<script>
+Morris.Bar({
+ element : 'chart',
+ data:[<?php echo $chart_data; ?>],
+ xkey:'Date',
+ ykeys:['dailySales'],
+ labels:['Price'],
+ hideHover:'auto',
+ stacked:true
+});
+</script>
 </body>
 </html>

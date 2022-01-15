@@ -160,7 +160,8 @@ if(isset($_POST['btn_add']))
         }       
         else
         {
-          $dt2=date("Y-m-d H:i:s");
+          date_default_timezone_set("Asia/Manila");
+          $dt2=date("Y-m-d H:i:s a");
           mysqli_query($con, "INSERT INTO customers (`name`, `table_num`, `head_count` ) VALUES ('$name','$table_num','$head_count')");
           $price = $head_count*200;
           mysqli_query($con, "INSERT INTO `sale-history` (`customer_name`, `customer_count`, `total_price` ,`date`) 
